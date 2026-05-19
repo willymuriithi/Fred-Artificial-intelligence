@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🤖 Fred AI
 
 **Fred AI** is a modular, extensible AI agent with a clean CLI interface, built-in tools, and conversation memory.
@@ -213,3 +214,6 @@ MIT License - See LICENSE file for details.
 ## Contributing
 
 Contributions welcome! Please feel free to submit issues and pull requests.
+=======
+# Fred-Artificial-intelligence
+>>>>>>> a8656e93b87fcd7dd99c056da56e6ce4334277c8
