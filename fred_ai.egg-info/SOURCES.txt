@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+fred_ai.egg-info/PKG-INFO
+fred_ai.egg-info/SOURCES.txt
+fred_ai.egg-info/dependency_links.txt
+fred_ai.egg-info/entry_points.txt
+fred_ai.egg-info/requires.txt
+fred_ai.egg-info/top_level.txt

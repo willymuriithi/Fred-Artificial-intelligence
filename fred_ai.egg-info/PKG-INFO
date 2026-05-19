@@ -1,0 +1,238 @@
+Metadata-Version: 2.4
+Name: fred-ai
+Version: 0.1.0
+Summary: Fred AI - A modular AI agent with extensible tools and memory
+Author: Fred AI Team
+License: MIT
+Project-URL: Homepage, https://github.com/yourusername/fred-ai
+Project-URL: Repository, https://github.com/yourusername/fred-ai
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+Requires-Dist: openai>=1.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-asyncio; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+
+# 🤖 Fred AI
+
+**Fred AI** is a modular, extensible AI agent with a clean CLI interface, built-in tools, and conversation memory.
+
+## Features
+
+- 🧠 **Conversation Memory** - Maintains context across conversations
+- 🔧 **Extensible Tools** - Built-in tools with easy plugin architecture
+- ⚙️ **Configuration** - Flexible config for API keys, models, and preferences
+- 💻 **CLI Interface** - Clean interactive terminal interface
+- 🔌 **OpenAI Compatible** - Works with OpenAI API and compatible endpoints
+
+## Installation
+
+### From source
+
+```bash
+cd fred_ai
+pip install -e .
+```
+
+### Manual setup
+
+```bash
+pip install openai
+```
+
+## Quick Start
+
+### 1. Set your API key
+
+```bash
+fred --set-api-key your-api-key-here
+```
+
+Or set environment variable:
+```bash
+export OPENAI_API_KEY=your-api-key-here
+```
+
+### 2. Start chatting
+
+```bash
+fred
+```
+
+### 3. Or run a single command
+
+```bash
+fred -c "What is 125 * 47?"
+```
+
+## Usage
+
+### Interactive Mode
+
+```bash
+fred
+```
+
+Commands available in interactive mode:
+- `quit` / `exit` - Exit the conversation
+- `clear` - Clear conversation history
+- `save [name]` - Save conversation to file
+- `tools` - List available tools
+
+### Command Line Options
+
+```
+usage: fred [-h] [-c COMMAND] [-v] [--config] [--set-api-key API_KEY]
+            [--set-model MODEL] [--version]
+
+Fred AI - Your friendly AI assistant
+
+options:
+  -h, --help            show this help message and exit
+  -c, --command COMMAND Execute a single command and exit
+  -v, --verbose         Enable verbose output
+  --config              Show or edit configuration
+  --set-api-key API_KEY Set the API key
+  --set-model MODEL     Set the model to use
+  --version             show program's version number and exit
+```
+
+### Examples
+
+```bash
+# Start interactive chat
+fred
+
+# Single calculation
+fred -c "Calculate 25 * 4"
+
+# Get current time
+fred -c "What time is it?"
+
+# Verbose mode
+fred -v -c "What is 100 / 8?"
+
+# Change model
+fred --set-model gpt-4o
+```
+
+## Built-in Tools
+
+Fred AI comes with these tools out of the box:
+
+| Tool | Description | Example |
+|------|-------------|---------|
+| `calculator` | Basic arithmetic | `25 * 4`, `100 / 8` |
+| `datetime` | Current date/time | Get current timestamp |
+| `echo` | Echo input (testing) | Echo back messages |
+
+## Adding Custom Tools
+
+Create a new tool by extending `BaseTool`:
+
+```python
+from fred_ai.tools import BaseTool
+
+class WeatherTool(BaseTool):
+    name = "weather"
+    description = "Get weather information for a location"
+    
+    def execute(self, location: str) -> str:
+        # Your implementation
+        return f"Weather in {location}: Sunny, 25°C"
+
+# Register the tool
+from fred_ai import FredAgent
+agent = FredAgent()
+agent.tool_registry.register(WeatherTool())
+```
+
+## Configuration
+
+Configuration is stored in `~/.fred_ai/config.json`:
+
+```json
+{
+  "api_key": "your-api-key",
+  "api_base_url": "https://api.openai.com/v1",
+  "model": "gpt-4o-mini",
+  "temperature": 0.7,
+  "max_tokens": 2048,
+  "memory_enabled": true,
+  "max_history": 50,
+  "verbose": false
+}
+```
+
+## Programmatic Usage
+
+```python
+from fred_ai import FredAgent
+from fred_ai.config import Config
+
+# Create config
+config = Config()
+config.api_key = "your-api-key"
+config.model = "gpt-4o-mini"
+
+# Create agent
+agent = FredAgent(config=config)
+
+# Chat
+response = agent.chat("What is 25 * 4?")
+print(response)
+
+# Save conversation
+agent.save_conversation("my_chat")
+```
+
+## Project Structure
+
+```
+fred_ai/
+├── __init__.py       # Package exports
+├── __main__.py       # Entry point
+├── agent.py          # Core FredAgent class
+├── cli.py            # Command-line interface
+├── config.py         # Configuration management
+├── requirements.txt  # Python dependencies
+├── pyproject.toml    # Project metadata
+├── tools/
+│   ├── __init__.py
+│   └── tools.py      # Built-in tools
+└── memory/
+    ├── __init__.py
+    └── memory.py     # Conversation memory
+```
+
+## Development
+
+```bash
+# Install dev dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Format code
+black fred_ai/
+
+# Lint
+ruff check fred_ai/
+```
+
+## License
+
+MIT License - See LICENSE file for details.
+
+## Contributing
+
+Contributions welcome! Please feel free to submit issues and pull requests.
